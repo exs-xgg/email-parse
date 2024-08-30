@@ -30,7 +30,7 @@ class ParseEmail extends Command
         $this->info('Retrieving Email Records');
 
         $i = 0;
-        foreach(SuccessfulEmails::whereNull('raw_text')->cursor() as $email_record){ # I use lazy because specifically designed to handle large datasets efficiently.
+        foreach(SuccessfulEmails::whereNull('raw_text')->orWhere('raw_text','=', '')->cursor() as $email_record){ # I use lazy because specifically designed to handle large datasets efficiently.
 
             $email_record->raw_text = parse_email($email_record->email);
             $email_record->save();
