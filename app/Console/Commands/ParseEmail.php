@@ -32,8 +32,7 @@ class ParseEmail extends Command
         $i = 0;
         foreach(SuccessfulEmails::whereNull('raw_text')->cursor() as $email_record){ # I use lazy because specifically designed to handle large datasets efficiently.
 
-            $parsed_email = parse_email($email_record->email) ;
-            $email_record->raw_text = $parsed_email ? $parsed_email : strip_tags($email_record->email); # Just in case email cant be parsed, just strip the tags
+            $email_record->raw_text = parse_email($email_record->email);
             $email_record->save();
             $i++;
 

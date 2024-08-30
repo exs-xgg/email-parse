@@ -14,6 +14,9 @@ if (!function_exists('parse_email')) {
     {
 
         $message = Message::from($email, false);
-        return strip_tags($message->getTextContent());
+
+        $parsed_email = strip_tags($message->getTextContent());
+        return $parsed_email ? $parsed_email : strip_tags($email);  # Just in case email cant be parsed, just strip the tags
+
     }
 }
