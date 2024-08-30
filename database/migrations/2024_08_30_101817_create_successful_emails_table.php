@@ -34,6 +34,8 @@ class CreateSuccessfulEmailsTable extends Migration
         //     $table->index('affiliate_id', 'affiliate_index'); 
         // });
         Schema::table('successful_emails', function (Blueprint $table) {
+
+            $table->timestamps();
             $table->softDeletes(); 
         });
     }
@@ -47,6 +49,8 @@ class CreateSuccessfulEmailsTable extends Migration
     {
         // Schema::dropIfExists('successful_emails');
         Schema::table('successful_emails', function (Blueprint $table) {
+
+            $table->dropTimestamps();
             $table->dropSoftDeletes(); // Reverses the change if needed
         });
     }
