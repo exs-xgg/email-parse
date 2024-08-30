@@ -1,0 +1,181 @@
+openapi: 3.0.0
+info:
+  title: Successful Emails API
+  description: API documentation for managing successful emails
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000/api
+    description: Local development server
+
+paths:
+  /email:
+    get:
+      summary: Get all successful emails
+      operationId: getAllEmails
+      tags:
+        - Emails
+      responses:
+        "200":
+          description: A list of successful emails
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Email"
+
+    post:
+      summary: Create a new successful email
+      operationId: createEmail
+      tags:
+        - Emails
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmailInput"
+      responses:
+        "201":
+          description: Email created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Email"
+
+  /email/{id}:
+    get:
+      summary: Get a specific successful email
+      operationId: getEmailById
+      tags:
+        - Emails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A successful email
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Email"
+        "404":
+          description: Email not found
+
+    put:
+      summary: Update a specific successful email
+      operationId: updateEmailById
+      tags:
+        - Emails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmailInput"
+      responses:
+        "200":
+          description: Email updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Email"
+        "404":
+          description: Email not found
+
+    delete:
+      summary: Delete a specific successful email
+      operationId: deleteEmailById
+      tags:
+        - Emails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Email deleted successfully
+        "404":
+          description: Email not found
+
+components:
+  schemas:
+    Email:
+      type: object
+      properties:
+        id:
+          type: integer
+        affiliate_id:
+          type: integer
+        envelope:
+          type: string
+        from:
+          type: string
+        subject:
+          type: string
+        dkim:
+          type: string
+          nullable: true
+        SPF:
+          type: string
+          nullable: true
+        spam_score:
+          type: number
+          format: float
+          nullable: true
+        email:
+          type: string
+        raw_text:
+          type: string
+        sender_ip:
+          type: string
+          nullable: true
+        to:
+          type: string
+        timestamp:
+          type: integer
+
+    EmailInput:
+      type: object
+      properties:
+        affiliate_id:
+          type: integer
+        envelope:
+          type: string
+        from:
+          type: string
+        subject:
+          type: string
+        dkim:
+          type: string
+          nullable: true
+        SPF:
+          type: string
+          nullable: true
+        spam_score:
+          type: number
+          format: float
+          nullable: true
+        email:
+          type: string
+        raw_text:
+          type: string
+        sender_ip:
+          type: string
+          nullable: true
+        to:
+          type: string
+        timestamp:
+          type: integer
