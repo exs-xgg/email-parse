@@ -23,7 +23,7 @@ class SuccessfulEmailsController extends Controller
     {
         $email_request = $request->only((new SuccessfulEmails)->getFillable());
 
-        $email_request['raw_text'] = strip_tags($email_request['email']);
+        $email_request['raw_text'] = parse_email($email_request['email']);
         
         $result = SuccessfulEmails::create($email_request);
         return response()->json(["data" => $result]);
@@ -48,7 +48,7 @@ class SuccessfulEmailsController extends Controller
         
         // Check if email field has changed, then strip html tags
         if($email_request->isDirty('email')){
-            $email_request['raw_text'] = strip_tags($email_request['email']);
+            $email_request['raw_text'] = parse_email($email_request['email']);
         }
         $result = SuccessfulEmails::whereId($id)->update($email_request->toArray());
         return response()->json(["message" => $result ? 'Record updated successfully' : 'Record update failed - missing or error occurred']);
